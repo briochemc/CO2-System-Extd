@@ -90,9 +90,9 @@ for V = 1:length(HEADERS_v3)
     x = DATA_v3(:,V);
     y = DATA(:,V);
     relerr = abs(y - x) ./ abs(x);
-    ix = x ~= -999; % Only compare non fill-in values
-    maxrelerr = max(relerr(idx));
-    minrelerr = min(relerr(idx));
-    meanrelerr = mean(relerr(idx));
+    ix = x ~= -999 & y ~= -999; % Only compare non fill-in values
+    maxrelerr = max(relerr(ix));
+    minrelerr = min(relerr(ix));
+    meanrelerr = mean(relerr(ix));
     fprintf("%20s %20.2g %20.2g %20.2g %20i\n", HEADERS_v3{V}, meanrelerr, minrelerr, maxrelerr, length(ix))
 end
