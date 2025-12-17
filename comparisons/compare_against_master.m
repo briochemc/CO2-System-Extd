@@ -1,11 +1,11 @@
-% Compares your latest commit with CO2SYS v3.2.0
+% Compares your latest commit with CO2SYS v3.2.1
 
 
 
-%% Run CO2SYS v3.2.0
-disp('Running CO2SYS v3.2.0')
+%% Run CO2SYS v3.2.1
+disp('Running CO2SYS v3.2.1')
 rehash path % Circumvent caching of CO2SYS function
-system('git checkout v3.2.0'); % Checkout the v3.2.0 tag
+system('git checkout v3.2.1'); % Checkout the v3.2.1 tag
 
 %% Set up input conditions
 PARvalues = [2250 2100 8.1 400 405];
@@ -84,7 +84,7 @@ tic
     presout, si, phos, 0, 0, pHscales, K1K2, KSO4, KF, BSal);
 toc
 
-fprintf("\n\nRelative change vs v3.2.0:\n"); ...
+fprintf("\n\nRelative change vs v3.2.1:\n"); ...
 fprintf("%20s %20s %20s %20s %20s\n", "Variable", "Mean rel. change", "Min rel. change", "Max rel. change", "# of samples"); ...
 for V = 1:length(HEADERS_v3)
     x = DATA_v3(:,V);
