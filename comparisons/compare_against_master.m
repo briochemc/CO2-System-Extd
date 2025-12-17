@@ -89,10 +89,13 @@ fprintf("%20s %20s %20s %20s %20s\n", "Variable", "Mean rel. change", "Min rel. 
 for V = 1:length(HEADERS_v3)
     x = DATA_v3(:,V);
     y = DATA(:,V);
-    relerr = abs(y - x) ./ abs(x);
-    ix = x ~= -999 & y ~= -999; % Only compare non fill-in values
-    maxrelerr = max(relerr(ix));
-    minrelerr = min(relerr(ix));
-    meanrelerr = mean(relerr(ix));
-    fprintf("%20s %20.2g %20.2g %20.2g %20i\n", HEADERS_v3{V}, meanrelerr, minrelerr, maxrelerr, length(ix))
+    % Only compare non fill-in values
+    ix = x ~= -999 & y ~=(-999) & ~isnan(x) & ~isnan(y);
+    relerr = abs(y(ix) - x(ix)) ./ abs(x(ix));
+    % Only calculate metrics with non-NaN and non-Inf values
+    ix2 = ~isinf(relerr) & ~isnan(relerr);
+    maxrelerr = max(relerr(ix2));
+    minrelerr = min(relerr(ix2));
+    meanrelerr = mean(relerr(ix2));
+    fprintf("%20s %20.2g %20.2g %20.2g %20i\n", HEADERS_v3{V}, meanrelerr, minrelerr, maxrelerr, sum(ix2))
 end
