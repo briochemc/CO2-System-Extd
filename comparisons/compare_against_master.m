@@ -84,6 +84,7 @@ tic
     presout, si, phos, 0, 0, pHscales, K1K2, KSO4, KF, BSal);
 toc
 
+%% Compare results
 fprintf("\n\nRelative change vs v3.2.1:\n"); ...
 fprintf("%20s %20s %20s %20s %20s\n", "Variable", "Mean rel. change", "Min rel. change", "Max rel. change", "# of samples"); ...
 for V = 1:length(HEADERS_v3)

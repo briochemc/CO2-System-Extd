@@ -1930,7 +1930,8 @@ while any(nF)
     % so all we need to do is grab that constant to get dH_scaleA/dH_scaleB = 1/C
     [~,~,pHfree,~,~,~,scaling_constant] = FindpHOnAllScales(pH); % this converts pH to pHfree no matter the scale
     Hfree     = 10.^(-pHfree); % this converts pHfree to Hfree
-    dHfree_dH = 1 ./ scaling_constant; %
+    dHfree_dH = 1 ./ scaling_constant; % derivative of Hfree wrt H on the input scale
+    dHfree_dH(scaling_constant==0) = 0; % set dHfree_dH to zero when scaling constant is zero
     HSO4      = TSF./(1 + KSF./Hfree); % since KS is on the free scale
     dHSO4_dHfree = KSF ./ (Hfree .* Hfree) .* HSO4 ./ (1 + KSF ./ Hfree);
     dHSO4_dH = dHSO4_dHfree .* dHfree_dH;
@@ -1940,9 +1941,9 @@ while any(nF)
     Residual  = TAi - CAlk - BAlk - OH - PAlk - SiAlk - AmmAlk - HSAlk + Hfree + HSO4 + HF;
     % find Slope dTA/dpH;
     % (this is now exact!)
-    Slope     = dH_dpHx .* (-dCAlk_dH - dBAlk_dH - dOH_dH - dPAlk_dH ...
+    Slope     = -dH_dpHx .* (-dCAlk_dH - dBAlk_dH - dOH_dH - dPAlk_dH ...
         - dSiAlk_dH - dAmmAlk_dH - dHSAlk_dH + dHfree_dH + dHSO4_dH + dHF_dH);
-    deltapH   = -Residual./Slope; % this is Newton's method
+    deltapH   = Residual./Slope; % this is Newton's method
     % to keep the jump from being too big:
     while any(abs(deltapH) > 1)
         FF=abs(deltapH)>1; deltapH(FF)=deltapH(FF)./2;
