@@ -1941,9 +1941,9 @@ while any(nF)
     Residual  = TAi - CAlk - BAlk - OH - PAlk - SiAlk - AmmAlk - HSAlk + Hfree + HSO4 + HF;
     % find Slope dTA/dpH;
     % (this is now exact!)
-    Slope     = -dH_dpHx .* (-dCAlk_dH - dBAlk_dH - dOH_dH - dPAlk_dH ...
+    Slope     = dH_dpHx .* (-dCAlk_dH - dBAlk_dH - dOH_dH - dPAlk_dH ...
         - dSiAlk_dH - dAmmAlk_dH - dHSAlk_dH + dHfree_dH + dHSO4_dH + dHF_dH);
-    deltapH   = Residual./Slope; % this is Newton's method
+    deltapH   = -Residual./Slope; % this is Newton's method
     % to keep the jump from being too big:
     while any(abs(deltapH) > 1)
         FF=abs(deltapH)>1; deltapH(FF)=deltapH(FF)./2;
